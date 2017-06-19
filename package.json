@@ -1,0 +1,14 @@
+{
+  "name": "geocoding-proxy",
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": "git@github.com:rpearce/geocoding-proxy.git",
+  "author": "Robert Pearce <me@robertwpearce.com>",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "dotenv": "^4.0.0",
+    "paperplane": "^0.5.1",
+    "ramda": "^0.24.1"
+  }
+}
