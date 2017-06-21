@@ -5,32 +5,29 @@ require('dotenv').config()
 // Import libraries
 const http = require('http')
 const axios = require('axios')
-const { compose, prop } = require('ramda')
+const { compose, composeP, curryN, path, prop } = require('ramda')
 const { json, logger, methods, mount, parseJson, routes } = require('paperplane')
 
 
 // Application-specific code
-const hello = req =>
-  Promise
-    .resolve('hello world')
-    .then(json)
-
-const geocode = req =>
+const getGeocode = curryN(2, (key, address) =>
   axios({
     method: 'GET',
     url: 'https://maps.googleapis.com/maps/api/geocode/json',
-    params: {
-      key: process.env.GEO_KEY,
-      address: req.params.address
-    }
+    params: { key, address }
   })
   .then(prop('data'))
-  .then(json)
+)
+
+const geocode = compose(
+  composeP(
+    json,
+    getGeocode(process.env.GEO_KEY),
+  ),
+  path(['params', 'address'])
+)
 
 const endpoints = routes({
-  '/': methods({
-    GET: hello
-  }),
   '/geocode/:address': methods({
     GET: geocode
   })
