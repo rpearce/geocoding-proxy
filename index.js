@@ -1,3 +1,5 @@
+'use strict'
+
 // Make our .env configuration file available
 require('dotenv').config()
 
